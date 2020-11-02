@@ -39,7 +39,7 @@
     </scg:List>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
-    <scg:List x:TypeArguments="AssemblyReference" Capacity="25">
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="30">
       <AssemblyReference>System.Activities</AssemblyReference>
       <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
       <AssemblyReference>mscorlib</AssemblyReference>
@@ -65,11 +65,17 @@
       <AssemblyReference>UiPath.Vision.Core</AssemblyReference>
       <AssemblyReference>UiPath.OCR.Contracts</AssemblyReference>
       <AssemblyReference>UiPath.UIAutomationNext</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
+      <AssemblyReference>Microsoft.Bcl.AsyncInterfaces</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
   <Flowchart DisplayName="CursoRPA - Flowchart / Diagrama de Flujo" sap:VirtualizedContainerService.HintSize="712,700.8" sap2010:WorkflowViewState.IdRef="Flowchart_1">
     <Flowchart.Variables>
       <Variable x:TypeArguments="x:String" Name="varTextoAEscribir" />
+      <Variable x:TypeArguments="sd1:DataTable" Name="dtCursosEncontrados" />
     </Flowchart.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -82,7 +88,7 @@
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
     <Flowchart.StartNode>
-      <x:Reference>__ReferenceID9</x:Reference>
+      <x:Reference>__ReferenceID10</x:Reference>
     </Flowchart.StartNode>
     <FlowStep>
       <sap:WorkflowViewStateService.ViewState>
@@ -303,9 +309,7 @@
               </sap:WorkflowViewStateService.ViewState>
               <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke EscribirTextoEnNotepad workflow" sap:VirtualizedContainerService.HintSize="378.4,113.6" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="XAMLCreadosEnElCurso\EscribirTextoEnNotepad.xaml">
                 <ui:InvokeWorkflowFile.Arguments>
-                  <InArgument x:TypeArguments="x:String" x:Key="in_VarTextoEscribir">
-                    <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="varTextoPDF" />
-                  </InArgument>
+                  <InArgument x:TypeArguments="x:String" x:Key="in_VarTextoEscribir">[varTextoPDF]</InArgument>
                 </ui:InvokeWorkflowFile.Arguments>
               </ui:InvokeWorkflowFile>
             </Sequence>
@@ -490,7 +494,7 @@
               </sap:WorkflowViewStateService.ViewState>
             </ui:InputDialog>
             <FlowStep.Next>
-              <FlowSwitch x:TypeArguments="x:Int32" x:Name="__ReferenceID4" DisplayName="Flow Switch" sap:VirtualizedContainerService.HintSize="70.4,87.2" sap2010:WorkflowViewState.IdRef="FlowSwitch`1_1">
+              <FlowSwitch x:TypeArguments="x:Int32" x:Name="__ReferenceID4" DisplayName="Flow Switch" Expression="[int32.Parse(varRespuestaDelUsuario)]" sap:VirtualizedContainerService.HintSize="70.4,87.2" sap2010:WorkflowViewState.IdRef="FlowSwitch`1_1">
                 <FlowSwitch.Default>
                   <FlowStep x:Name="__ReferenceID5">
                     <sap:WorkflowViewStateService.ViewState>
@@ -508,9 +512,6 @@
                     </ui:LogMessage>
                   </FlowStep>
                 </FlowSwitch.Default>
-                <FlowSwitch.Expression>
-                  <mva:VisualBasicValue x:TypeArguments="x:Int32" ExpressionText="int32.Parse(varRespuestaDelUsuario)" />
-                </FlowSwitch.Expression>
                 <sap:WorkflowViewStateService.ViewState>
                   <scg:Dictionary x:TypeArguments="x:String, x:Object">
                     <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -554,10 +555,7 @@
               </FlowSwitch>
             </FlowStep.Next>
           </FlowStep>
-          <FlowDecision DisplayName="Flow Decision" sap:VirtualizedContainerService.HintSize="79.2,87.2" sap2010:WorkflowViewState.IdRef="FlowDecision_1">
-            <FlowDecision.Condition>
-              <mva:VisualBasicValue x:TypeArguments="x:Boolean" ExpressionText="int32.Parse(varRespuestaDelUsuario)&gt;=18" />
-            </FlowDecision.Condition>
+          <FlowDecision Condition="[int32.Parse(varRespuestaDelUsuario)&gt;=18]" DisplayName="Flow Decision" sap:VirtualizedContainerService.HintSize="79.2,87.2" sap2010:WorkflowViewState.IdRef="FlowDecision_1">
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -741,25 +739,18 @@
         </ui:InterruptibleDoWhile>
       </Sequence>
     </FlowStep>
-    <FlowStep x:Name="__ReferenceID9">
+    <FlowStep x:Name="__ReferenceID10">
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
           <av:Point x:Key="ShapeLocation">240,137.6</av:Point>
           <av:Size x:Key="ShapeSize">200,68.8</av:Size>
+          <av:PointCollection x:Key="ConnectorLocation">340,206.4 340,256.4</av:PointCollection>
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
-      <Sequence DisplayName="Interacción con Navegador" sap:VirtualizedContainerService.HintSize="508,968" sap2010:WorkflowViewState.IdRef="Sequence_19">
+      <Sequence DisplayName="Interacción con Navegador" sap:VirtualizedContainerService.HintSize="200,68.8" sap2010:WorkflowViewState.IdRef="Sequence_19">
         <Sequence.Variables>
-          <Variable x:TypeArguments="x:String" Name="varUser">
-            <Variable.Default>
-              <Literal x:TypeArguments="x:String">mesajoao@gmail.com</Literal>
-            </Variable.Default>
-          </Variable>
-          <Variable x:TypeArguments="x:String" Name="varPass">
-            <Variable.Default>
-              <Literal x:TypeArguments="x:String">ej309dcv7017</Literal>
-            </Variable.Default>
-          </Variable>
+          <Variable x:TypeArguments="x:String" Default="mesajoao@gmail.com" Name="varUser" />
+          <Variable x:TypeArguments="x:String" Default="ej309dcv7017" Name="varPass" />
           <Variable x:TypeArguments="ui:Browser" Name="BrowserAbierto" />
         </Sequence.Variables>
         <sap:WorkflowViewStateService.ViewState>
@@ -776,7 +767,6 @@
               <Sequence sap:VirtualizedContainerService.HintSize="375.2,772.8" sap2010:WorkflowViewState.IdRef="Sequence_21">
                 <Sequence.Variables>
                   <Variable x:TypeArguments="x:Boolean" Name="varFlagAutenticacion" />
-                  <Variable x:TypeArguments="sd1:DataTable" Name="dtCursosEncontrados" />
                 </Sequence.Variables>
                 <sap:WorkflowViewStateService.ViewState>
                   <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -822,12 +812,8 @@
                   <If.Else>
                     <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke AutenticarEnPlatzi workflow" sap:VirtualizedContainerService.HintSize="364.8,113.6" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_4" UnSafe="False" WorkflowFileName="XAMLCreadosEnElCurso\AutenticarEnPlatzi.XAML">
                       <ui:InvokeWorkflowFile.Arguments>
-                        <InArgument x:TypeArguments="x:String" x:Key="varUser">
-                          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="varUser" />
-                        </InArgument>
-                        <InArgument x:TypeArguments="x:String" x:Key="varPass">
-                          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="varPass" />
-                        </InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="varUser">[varUser]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="varPass">[varPass]</InArgument>
                       </ui:InvokeWorkflowFile.Arguments>
                     </ui:InvokeWorkflowFile>
                   </If.Else>
@@ -848,6 +834,119 @@
           </ui:OpenBrowser.Body>
         </ui:OpenBrowser>
       </Sequence>
+      <FlowStep.Next>
+        <FlowStep x:Name="__ReferenceID9">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <av:Point x:Key="ShapeLocation">240,256.4</av:Point>
+              <av:Size x:Key="ShapeSize">200,68.8</av:Size>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <Sequence DisplayName="Tablas de Datos" sap:VirtualizedContainerService.HintSize="375.2,584" sap2010:WorkflowViewState.IdRef="Sequence_24">
+            <Sequence.Variables>
+              <Variable x:TypeArguments="x:String" Name="varTextoDelDT" />
+            </Sequence.Variables>
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <ui:ForEachRow CurrentIndex="{x:Null}" DataTable="[dtCursosEncontrados]" DisplayName="For Each Row" sap:VirtualizedContainerService.HintSize="333.6,52.8" sap2010:WorkflowViewState.IdRef="ForEachRow_1">
+              <ui:ForEachRow.Body>
+                <ActivityAction x:TypeArguments="sd1:DataRow">
+                  <ActivityAction.Argument>
+                    <DelegateInArgument x:TypeArguments="sd1:DataRow" Name="row" />
+                  </ActivityAction.Argument>
+                  <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="476.8,356.8" sap2010:WorkflowViewState.IdRef="Sequence_22">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="435.2,264" sap2010:WorkflowViewState.IdRef="CommentOut_8">
+                      <ui:CommentOut.Body>
+                        <Sequence DisplayName="Actividades ignoradas" sap:VirtualizedContainerService.HintSize="375.2,185.6" sap2010:WorkflowViewState.IdRef="Sequence_25">
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_22" Level="Info" Message="[row(&quot;NombreCurso&quot;).ToString]" />
+                        </Sequence>
+                      </ui:CommentOut.Body>
+                    </ui:CommentOut>
+                  </Sequence>
+                </ActivityAction>
+              </ui:ForEachRow.Body>
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </ui:ForEachRow>
+            <ui:AddDataColumn x:TypeArguments="x:Object" AllowDBNull="{x:Null}" AutoIncrement="{x:Null}" Column="{x:Null}" DefaultValue="{x:Null}" MaxLength="{x:Null}" Unique="{x:Null}" sap2010:Annotation.AnnotationText="Adicionar una nueva Columna a un DataTable." ColumnName="Estatus del Curso" DataTable="[dtCursosEncontrados]" DisplayName="Add Data Column" sap:VirtualizedContainerService.HintSize="333.6,66.4" sap2010:WorkflowViewState.IdRef="AddDataColumn`1_1">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </ui:AddDataColumn>
+            <ui:ForEachRow CurrentIndex="{x:Null}" DataTable="[dtCursosEncontrados]" DisplayName="For Each Row" sap:VirtualizedContainerService.HintSize="333.6,52.8" sap2010:WorkflowViewState.IdRef="ForEachRow_2">
+              <ui:ForEachRow.Body>
+                <ActivityAction x:TypeArguments="sd1:DataRow">
+                  <ActivityAction.Argument>
+                    <DelegateInArgument x:TypeArguments="sd1:DataRow" Name="row" />
+                  </ActivityAction.Argument>
+                  <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="476.8,456.8" sap2010:WorkflowViewState.IdRef="Sequence_23">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <Assign sap:VirtualizedContainerService.HintSize="435.2,60" sap2010:WorkflowViewState.IdRef="Assign_9">
+                      <Assign.To>
+                        <OutArgument x:TypeArguments="x:Object">[row("Estatus del Curso")]</OutArgument>
+                      </Assign.To>
+                      <Assign.Value>
+                        <InArgument x:TypeArguments="x:Object">["Pendiente"]</InArgument>
+                      </Assign.Value>
+                    </Assign>
+                    <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="435.2,264" sap2010:WorkflowViewState.IdRef="CommentOut_9">
+                      <ui:CommentOut.Body>
+                        <Sequence DisplayName="Actividades ignoradas" sap:VirtualizedContainerService.HintSize="375.2,185.6" sap2010:WorkflowViewState.IdRef="Sequence_26">
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_23" Level="Info" Message="[row(0).ToString + &quot; - &quot; + row(&quot;Estatus del Curso&quot;).ToString]" />
+                        </Sequence>
+                      </ui:CommentOut.Body>
+                    </ui:CommentOut>
+                  </Sequence>
+                </ActivityAction>
+              </ui:ForEachRow.Body>
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </ui:ForEachRow>
+            <ui:OutputDataTable sap2010:Annotation.AnnotationText="Otra forma de imprimir la información de un DataTable." DataTable="[dtCursosEncontrados]" DisplayName="Output Data Table" sap:VirtualizedContainerService.HintSize="333.6,66.4" sap2010:WorkflowViewState.IdRef="OutputDataTable_1" Text="[varTextoDelDT]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </ui:OutputDataTable>
+            <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_24" Level="Info" Message="[varTextoDelDT]" />
+          </Sequence>
+        </FlowStep>
+      </FlowStep.Next>
     </FlowStep>
+    <x:Reference>__ReferenceID9</x:Reference>
   </Flowchart>
 </Activity>
